@@ -99,6 +99,8 @@ raw_tx_b = rpc_connection.createrawtransaction([input_utxo_b], outputs_b)
 print("Raw transaction:", raw_tx_b)
 
 signed_tx_b = rpc_connection.signrawtransactionwithwallet(raw_tx_b)
+print(signed_tx_b)
+
 decoded_tx_b = rpc_connection.decoderawtransaction(signed_tx_b["hex"])
 
 print("Decoded signed transaction: ", decoded_tx_b)
