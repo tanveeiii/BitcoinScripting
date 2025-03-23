@@ -11,6 +11,9 @@ try:
     print("Connected. Blockchain info:", info)
 except JSONRPCException as e:
     print("Error connecting to bitcoind:", e)
+    
+# Run this only once 
+# rpc_connection.createwallet("mywallet")
 
 try:
     rpc_connection.loadwallet("mywallet")
