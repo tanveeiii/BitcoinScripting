@@ -25,7 +25,7 @@ print("Legacy Address A:", legacy_address_A)
 print("Legacy Address B:", legacy_address_B)
 print("Legacy Address C:", legacy_address_C)
 
-rpc_connection.generatetoaddress(201, legacy_address_A)  # Mine 201 blocks for balance
+rpc_connection.generatetoaddress(201, legacy_address_A)
 balance = rpc_connection.getbalance()
 print("New balance:", balance)
 
@@ -50,25 +50,25 @@ if change_amount < 0:
 
 outputs = {
     legacy_address_B: float(send_amount),
-    legacy_address_A: float(change_amount)  # Send change back to A
+    legacy_address_A: float(change_amount)
 }
 
 raw_tx = rpc_connection.createrawtransaction([input_utxo], outputs)
 print("Raw transaction:", raw_tx)
 
-decoded_tx = rpc_connection.decoderawtransaction(raw_tx)
-print("Decoded transaction:", decoded_tx)
+signed_tx = rpc_connection.signrawtransactionwithwallet(raw_tx)
+if not signed_tx["complete"]:
+    raise Exception("Transaction signing failed.")
+decoded_tx = rpc_connection.decoderawtransaction(signed_tx["hex"])
 
 for vout in decoded_tx["vout"]:
     address = vout["scriptPubKey"].get("address")
     if address == legacy_address_B:
         print(f"scriptPubKey for Address B is {vout['scriptPubKey']['hex']}")
 
-signed_tx = rpc_connection.signrawtransactionwithwallet(raw_tx)
-if not signed_tx["complete"]:
-    raise Exception("Transaction signing failed.")
-
 print("Signed transaction:", signed_tx["hex"])
+
+print("Decoded signed transaction ",decoded_tx)
 
 txid = rpc_connection.sendrawtransaction(signed_tx["hex"])
 print("Transaction broadcasted successfully. TXID:", txid)
@@ -95,13 +95,16 @@ outputs_b = {
 raw_tx_b = rpc_connection.createrawtransaction([input_utxo_b], outputs_b)
 print("Raw transaction:", raw_tx_b)
 
-decoded_tx_b = rpc_connection.decoderawtransaction(raw_tx_b)
-print("Decoded transaction:", decoded_tx_b)
+signed_tx_b = rpc_connection.signrawtransactionwithwallet(raw_tx_b)
+decoded_tx_b = rpc_connection.decoderawtransaction(signed_tx_b["hex"])
+
+print("Decoded signed transaction: ", decoded_tx_b)
 
 for vout in decoded_tx_b["vout"]:
     address = vout["scriptPubKey"].get("address")
     if address == legacy_address_C:
         print(f"scriptPubKey for Address C is {vout['scriptPubKey']['hex']}")
+
 
 
 
