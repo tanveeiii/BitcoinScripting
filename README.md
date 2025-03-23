@@ -1,5 +1,11 @@
 # BitcoinScripting
 
+### Team Members:
+- Tanvi Agarwal: 230001075
+- Suryansh Nagar: 230003077
+- Manan Nigam: 230051009
+- Manan Jiwnani: 230001049
+
 This project demonstrates how to create, sign, and broadcast Bitcoin transactions on a regtest network using Python and Bitcoin Core’s RPC interface. Two examples are provided:
 
 - **Segwit Transactions:**  
